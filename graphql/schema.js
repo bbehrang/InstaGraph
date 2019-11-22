@@ -2,7 +2,7 @@ import User from "../models/users";
 
 const graphql = require('graphql');
 
-import {getAllUsers} from "./resolvers";
+import {getAllUsers, postLike} from "./resolvers";
 
 const {
     GraphQLObjectType,
@@ -72,10 +72,37 @@ const RootQuery = new GraphQLObjectType({
         }
     }
 });
+const LikeType = new GraphQLObjectType({
+    name : 'LikeType',
+    fields : () => ({
+        like : {type: GraphQLBoolean},
+        unlike: {type: GraphQLBoolean}
+    })
+});
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields : {
+        postLike: {
+            type: LikeType,
+            args : {
+                postId: {type: new GraphQLNonNull(GraphQLID)},
+                postAuthor: {type: new GraphQLNonNull(GraphQLID)},
+                userLiked : {type: new GraphQLNonNull(GraphQLID)}
+            },
+            resolve: async(parent, args)=>{
+                    const p = await postLike(args.postId, args.postAuthor, args.userLiked);
+                   console.log('p',p);
+                    return p;
+            }
+        }
+    }
+});
 
 
 
 
 export const schema = new GraphQLSchema({
     query : RootQuery,
+    mutation: Mutation
 });

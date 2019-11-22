@@ -10,7 +10,7 @@ const userSchema = new Schema({
         lowercase: true,
         trim: true
     },
-    password : String,
+    password : {type: String , select: false},
     email : String,
     fullName: {type: String, maxLength: 100},
     description : {type: String, maxLength: 150},
