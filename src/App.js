@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Home from './components/User/Home';
 
 const client = new ApolloClient({
-    "uri": "http://localhost:3002/graphql"
+    "uri": "https://instagraph2019.herokuapp.com/graphql"
 });
 
 function App() {
