@@ -1,12 +1,21 @@
 import React from 'react';
-import ApolloClient from 'apollo-boost';
+import {ApolloClient, InMemoryCache, HttpLink} from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Home from './components/User/Home';
-
+const cache = new InMemoryCache();
+const link = new HttpLink({
+    uri: 'https://instagraph2019.herokuapp.com/graphql',
+});
 const client = new ApolloClient({
-    "uri": "https://instagraph2019.herokuapp.com/graphql"
+    link: link,
+    cache: cache,
+    defaultOptions: {
+        query: {
+            fetchPolicy: 'network-only'
+        }
+    }
 });
 
 function App() {
