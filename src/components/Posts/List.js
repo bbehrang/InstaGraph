@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {gql} from 'apollo-boost';
-import {useQuery} from '@apollo/react-hooks';
+import {useQuery, useLazyQuery} from '@apollo/react-hooks';
+import {getPostsQuery} from "../../queries/query";
+
+
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from '@material-ui/core/styles';
 import Post from './Post';
@@ -13,11 +15,10 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Modal from '@material-ui/core/Modal';
 import Button from "@material-ui/core/Button";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Card from "@material-ui/core/Card";
+import Container from "@material-ui/core/Container";
+import ListHoc from "../ListHoc";
+
+
 
 const useStyles = makeStyles(theme => ({
     bigAvatar: {
@@ -50,149 +51,170 @@ const useStyles = makeStyles(theme => ({
     media: {
         height: 140,
     },
+    postContainer: {
+        position: 'absolute',
+        zIndex : '2',
+        background:' rgba(0,0,0,0.5)',
+        minHeight: "100%"
+
+    },
+    modalContainer: {
+        position:'relative',
+        overflow: 'hidden',
+
+
+
+    },
+    modalItem:{
+        minWidth : '60%'
+    }
+
 
 }));
-const getPostsQuery = gql`
 
-   query user($id: ID!){
-    user(id: $id){
-        username
-        fullname
-        description
-        avatar
-        posts{
-            id
-            caption
-            media
-            likes{
-                username
-                avatar
-            }
-            createdAt
-            comments{
-                id
-                body
-                author{
-                    username
-                    avatar
-                }
-                createdAt
-            }
-        }
-        followers{
-            username
-            avatar
-        }
-        following{
-            username
-            avatar
-        }
-    }
-  }
-
-`;
-
+const showCss = {
+    display: 'flex'
+};
+const hideCss = {
+    display: 'none'
+};
 
 
 
 const PostList = (props) => {
-    const {loading, error , data} = useQuery(getPostsQuery, {variables: { id: props.id}});
+    const [getUser, {loading, error , data}] = useLazyQuery(getPostsQuery);
+    useEffect(() => {
+        getUser({
+            variables: { id: props.id},
+            options: {fetchPolicy: 'network-only'}
+        });
+    },[]);
     const [open, setOpen] = useState(false);
     const [post, setPost] = useState({});
+
+
+    const [user, setUser] = useState(null);
+
     const classes = useStyles();
     const handleOpen = () => {
+
         setOpen(true);
     };
 
     const handleClose = () => {
+
         setOpen(false);
     };
     const showPost = (e) => {
         const postId = e.target.getAttribute('data-id');
-       const post = data.user.posts.find(post => post.id === postId);
+       const post = user.posts.find(post => post.id === postId);
        setPost(post);
        handleOpen();
     };
-    const showModal = () => {
-      return (
-          <Modal
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-              open={open}
-              onClose={handleClose}
-          >
-              <Card className={classes.card}>
-                  <CardActionArea>
-                      <CardMedia
-                          className={classes.media}
-                          image={post.media}
-                          title={post.caption}
-                      />
-                      <CardContent>
-                          <Typography gutterBottom variant="h5" component="h2">
-                              {data.user.username}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" component="p">
-                              {post.caption}
-                          </Typography>
-                      </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                      <Button size="small" color="primary">
-                          Share
-                      </Button>
-                      <Button size="small" color="primary">
-                          Learn More
-                      </Button>
-                  </CardActions>
-              </Card>
-          </Modal>
-
-      );
-    };
-    if(loading) return (<h1>Loading...</h1>);
-
-    return(
-        <>
-            {open ? showModal() : ''}
-            <Grid container spacing={2}>
-                <Grid item xs={4} sm={3}>
-                    <Avatar alt={data.user.username} src={data.user.avatar} className={classes.bigAvatar}/>
-                </Grid>
-                <Grid item xs={8} sm={9}>
-                    <Grid item xs={12}>
-                    <Typography variant="h6" component="h2">
-                        {data.user.username}
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <List>
-                            <ListItem>{data.user.posts.length} posts</ListItem>
-                            <ListItem>{data.user.followers.length} followers</ListItem>
-                            <ListItem>{data.user.following.length} following</ListItem>
-                        </List>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2" component="h5">
-                            {data.user.description}
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </Grid>
-            <div className={classes.postList}>
-                <GridList cellHeight={300} className={classes.gridList} cols={3}>
-                    {
-                        data.user.posts.map(post =>
-                            <GridListTile onClick={showPost} key={post.id} cols={post.cols || 1}>
-                                <img src={post.media} alt={post.caption} data-id={post.id}/>
-                            </GridListTile>
-                        )
+    const addLike = (postLiked) => {
+        const postIndex = user.posts.findIndex(post => post.id === postLiked.id);
+        if(postIndex > -1){
+            setUser((prevUser) => ({
+                ...prevUser,
+                posts : prevUser.posts.map((post) => {
+                    if(post.id !== postLiked.id){
+                        return post;
                     }
-                </GridList>
-            </div>
+                    return {
+                        ...post,
+                        likes : postLiked.likes
+                    }
+                })
+            }));
+        }
+    };
+    const addComment = (postId, postCommented) => {
+        const postIndex = user.posts.findIndex(post => post.id === postId);
+        if(postIndex > -1){
+            setUser((prevUser) => ({
+                ...prevUser,
+                posts : prevUser.posts.map((post) => {
+                    if(post.id !== postId){
+                        return post;
+                    }
+                    return {
+                        ...post,
+                        comments : [...post.comments, postCommented]
+                    }
+                })
+            }));
+        }
+    };
+    const showModal = () => {
+        return  (
+            <Grid style={open ? showCss: hideCss} className={classes.postContainer} container spacing={0} direction="column" alignItems="center" justify="center">
+                <Grid item sm={12} className={classes.modalItem}>
+                    <Button onClick={handleClose} style={{color:"white"}}>Close</Button>
+                    <Post addLike={addLike} addComment={addComment} post={post} user=
+                        {{
+                            id : data.user.id,
+                            username: data.user.username,
+                            avatar:data.user.avatar
+                        }}/>
+                </Grid>
 
-        </>
-    );
+            </Grid>
+
+
+        ) };
+    if(loading) return (<h1>Loading...</h1>);
+    if(data && data.user && !user ){
+        setUser(data.user);
+    }
+    if(user){
+        return(
+            <div className={classes.modalContainer}>
+                {open ? showModal() : ''}
+                <Container maxWidth="md">
+                <Grid container spacing={2}>
+                    <Grid item xs={4} sm={3}>
+                        <Avatar alt={user.username} src={user.avatar} className={classes.bigAvatar}/>
+                    </Grid>
+                    <Grid item xs={8} sm={9}>
+                        <Grid item xs={12}>
+                            <Typography variant="h6" component="h2">
+                                {user.username}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <List>
+                                <ListItem>{user.posts.length} posts</ListItem>
+                                <ListItem>{user.followers.length} followers</ListItem>
+                                <ListItem>{user.following.length} following</ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant="subtitle2" component="h5">
+                                {user.description}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <div className={classes.postList}>
+                    <GridList cellHeight={300} className={classes.gridList} cols={3}>
+                        {
+                            user.posts.map(post =>
+                                <GridListTile onClick={showPost} key={post.id} cols={post.cols || 1}>
+                                    <img src={post.media} alt={post.caption} data-id={post.id}/>
+                                </GridListTile>
+                            )
+                        }
+                    </GridList>
+                </div>
+                    <ListHoc/>
+                </Container>
+            </div>
+        );
+    }
+    else{
+        return <h1>Something went wrong</h1>;
+    }
+
 };
 
 export default PostList;
