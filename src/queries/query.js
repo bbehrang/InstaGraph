@@ -1,6 +1,6 @@
 import {gql} from "apollo-boost";
 
-export const getPostsQuery = gql`
+export const GetPostsQuery = gql`
    query user($id: ID!){
     user(id: $id){
         id
@@ -38,3 +38,12 @@ export const getPostsQuery = gql`
     }
   }
 `;
+export const GetSuggested = gql`
+   query suggested($id: ID!){
+    suggested(id: $id){
+        id
+        username
+        avatar
+    }
+    }
+    `;

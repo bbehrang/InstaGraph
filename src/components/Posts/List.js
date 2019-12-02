@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useQuery, useLazyQuery} from '@apollo/react-hooks';
-import {getPostsQuery} from "../../queries/query";
+import {GetPostsQuery} from "../../queries/query";
 
 
 import Avatar from "@material-ui/core/Avatar";
@@ -82,7 +82,7 @@ const hideCss = {
 
 
 const PostList = (props) => {
-    const [getUser, {loading, error , data}] = useLazyQuery(getPostsQuery);
+    const [getUser, {loading, error , data}] = useLazyQuery(GetPostsQuery);
     useEffect(() => {
         getUser({
             variables: { id: props.id},
@@ -91,25 +91,20 @@ const PostList = (props) => {
     },[]);
     const [open, setOpen] = useState(false);
     const [post, setPost] = useState({});
-
-
     const [user, setUser] = useState(null);
 
     const classes = useStyles();
     const handleOpen = () => {
-
         setOpen(true);
     };
-
     const handleClose = () => {
-
         setOpen(false);
     };
     const showPost = (e) => {
         const postId = e.target.getAttribute('data-id');
-       const post = user.posts.find(post => post.id === postId);
-       setPost(post);
-       handleOpen();
+        const post = user.posts.find(post => post.id === postId);
+        setPost(post);
+        handleOpen();
     };
     const addLike = (postLiked) => {
         const postIndex = user.posts.findIndex(post => post.id === postLiked.id);

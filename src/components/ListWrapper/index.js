@@ -23,9 +23,9 @@ export default function ListAll (props) {
 
             <List >
 
-                {props.users.map(data => {
+                {props.users.map((data,i) => {
                             return (
-                                <ListItem key={data.id}>
+                                <ListItem key={i}>
                                     <ListItemAvatar>
                                         <Avatar
                                             alt={`Avatar`}
@@ -33,17 +33,17 @@ export default function ListAll (props) {
                                         />
                                     </ListItemAvatar>
                                     <ListItemText primary={data.username} />
-                                    {followings.map(item=> {
+                                    {followings.map( (item,i )=> {
                                         if (item.username === data.username) {
                                             return (
-                                                <ListItemSecondaryAction>
+                                                <ListItemSecondaryAction key={i}>
                                                     <Button color="primary" onClick={handleClick}>Unfollow</Button>
                                                 </ListItemSecondaryAction>
                                             )
                                         }
                                         if(item.username!==data.username) {
                                             return(
-                                                <ListItemSecondaryAction>
+                                                <ListItemSecondaryAction key={i}>
                                                     <Button color="primary" onClick={handleClick}>Follow</Button>
                                                 </ListItemSecondaryAction>
                                             )

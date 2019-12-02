@@ -89,7 +89,6 @@ export default function Post({post, user, updatePost, addLike, addComment}) {
         }
     },[post]);
     const checkLikes = (postToCheck) => {
-
         return postToCheck.likes.filter(like => user.username === like.username).length > 0;
     };
 
@@ -106,12 +105,12 @@ export default function Post({post, user, updatePost, addLike, addComment}) {
             console.log(e);
         }
     };
-    const calculateDate = () => {
+/*    const calculateDate = () => {
         let utcSeconds = post.createdAt / 1000;
         let d = new Date(0);
         d.setUTCSeconds(utcSeconds);
         return (d.toLocaleDateString());
-    };
+    };*/
     const handleChange = (e) => {
         const commentBody = e.target.value;
         setComment(commentBody);

@@ -11,8 +11,8 @@ export default function FollowingsList (followings) {
     return (
         <List>
             {
-                followings.users.map(data =>
-                    <ListItem key={data.id}>
+                followings.users.map((data,i) =>
+                    <ListItem key={i}>
                         <ListItemAvatar>
                             <Avatar
                                 alt={`Avatar`}

@@ -24,3 +24,12 @@ export const AddCommentMutation = gql`
             }
             }
 `;
+export const FollowMutation = gql`
+        mutation follow($user:ID!, $toFollow: ID!){
+            follow(user: $user, toFollow: $toFollow){
+                id
+                username
+                avatar
+            }
+            }
+`;
