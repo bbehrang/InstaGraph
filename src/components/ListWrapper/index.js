@@ -30,7 +30,7 @@ export default function ListAll (props) {
                    variables: {user: currentUserId, toFollow: e.target.parentNode.id}
                });
                const result = response.data.follow;
-             
+
                result === true?e.target.innerText = 'Unfollow':e.target.innerText = 'Follow';
            } catch(err) {
                console.log(err);
@@ -77,3 +77,4 @@ export default function ListAll (props) {
 
 
 };
+
