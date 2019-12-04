@@ -6,17 +6,35 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import {useMutation} from '@apollo/react-hooks';
+import {FollowMutation} from "../../queries/mutation";
+
+
 
 
 export default function ListAll (props) {
 
-        const followings = props.users[0].following;
+
+    const currentUserId = props.users[0].id;
+
+    const followings = props.users[0].following;
+
+    const [sendFollow] = useMutation(FollowMutation);
 
 
-
-        function handleClick (e) {
-
-            e.target.innerHTML === 'Unfollow'?e.target.innerHTML = 'Follow':e.target.innerHTML = 'Unfollow';
+    async function handleClick (e) {
+            e.preventDefault();
+            e.persist();
+           try {
+               const response = await sendFollow({
+                   variables: {user: currentUserId, toFollow: e.target.parentNode.id}
+               });
+               const result = response.data.follow;
+             
+               result === true?e.target.innerText = 'Unfollow':e.target.innerText = 'Follow';
+           } catch(err) {
+               console.log(err);
+           }
         }
 
         return (
@@ -37,14 +55,14 @@ export default function ListAll (props) {
                                         if (item.username === data.username) {
                                             return (
                                                 <ListItemSecondaryAction key={i}>
-                                                    <Button color="primary" onClick={handleClick}>Unfollow</Button>
+                                                    <Button color="primary" onClick={handleClick} id={data.id}>Unfollow</Button>
                                                 </ListItemSecondaryAction>
                                             )
                                         }
                                         if(item.username!==data.username) {
                                             return(
                                                 <ListItemSecondaryAction key={i}>
-                                                    <Button color="primary" onClick={handleClick}>Follow</Button>
+                                                    <Button color="primary" onClick={handleClick} id={data.id}>Follow</Button>
                                                 </ListItemSecondaryAction>
                                             )
                                         }
