@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
-const connectDb = (dbPath) => {
+const connectToDb = (path) => {
     try{
-        return mongoose.connect(dbPath, {
+        return mongoose.connect(path, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
-            useFindAndModify: false
         });
     }
    catch (e) {
@@ -14,4 +13,4 @@ const connectDb = (dbPath) => {
    }
 };
 
-export default connectDb;
+export default connectToDb;

@@ -12,15 +12,15 @@ const userSchema = new Schema({
     },
     password : {type: String , select: false},
     email : String,
-    fullName: {type: String, maxLength: 100},
+    fullname: {type: String, maxLength: 100},
     description : {type: String, maxLength: 150},
-    avatar: String,
+    avatar: {type: String, default: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"},
     posts : [
         {
             id: Schema.Types.ObjectId,
             caption : {type : String, maxLength: 2200},
             media : String,
-            createdAt : {type: Date, default: Date.now},
+            createdAt : {required: true, type: Date, default: Date.now},
             likes : [
                 {type: Schema.Types.ObjectId, ref: 'User'}
             ],
