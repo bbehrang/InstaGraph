@@ -1,32 +1,54 @@
 import React from 'react';
-import {ApolloClient, InMemoryCache, HttpLink} from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
-import Home from './components/User/Home';
-const cache = new InMemoryCache();
-const link = new HttpLink({
-    uri: 'https://instagraph2019.herokuapp.com/graphql',
-});
-const client = new ApolloClient({
-    link: link,
-    cache: cache,
-    defaultOptions: {
-        query: {
-            fetchPolicy: 'network-only'
+import 'typeface-roboto';
+import {createMuiTheme} from '@material-ui/core/styles';
+import {CssBaseline} from '@material-ui/core';
+import {ThemeProvider} from "@material-ui/styles";
+import Layout from "./components/Common/Layout";
+
+import Home from "./components/Home";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#262626",
+
+        },
+        secondary: {
+            main: "#999",
+            light: "#efefef"
+        },
+        info: {
+            main: '#2196f3'
         }
     }
 });
 
 function App() {
-  return (
-      <ApolloProvider client={client}>
-          <CssBaseline />
-            <div className="App">
-                   <Home />
-            </div>
-      </ApolloProvider>
-  );
+    return (
+        <>
+            <CssBaseline/>
+            <ThemeProvider theme={theme}>
+                <div className="App">
+                    <Router>
+                        <Switch>
+                            <Route exact path='/'>
+                                <Layout>
+                                    <Home/>
+                                </Layout>
+                            </Route>
+                        </Switch>
+                    </Router>
+                </div>
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;
