@@ -1,10 +1,14 @@
 import React from 'react';
-import {Box, Link} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import MuiAvatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
+    routerLink: {
+        textDecoration: 'none',
+    },
     username : {
         marginLeft: theme.spacing(1)
     },
@@ -22,15 +26,16 @@ const useStyles = makeStyles(theme => ({
 function Avatar(props) {
     const classes = useStyles();
     return (
-        <Box display='flex' alignItems='center' component='header' p={2}>
-            <Link href='#' color='primary'>
+        <Link to='/#' className={classes.routerLink}>
+            <Box display='flex' alignItems='center' py={1.5}>
                 <MuiAvatar alt="Remy Sharp" src={props.img}/>
-            </Link>
-            <Link href='#' color='primary' variant='subtitle2' className={classes.username}>
-                {props.name}
-                {props.shouldShowSub ? <Typography className={classes.userSubtitle}>Leodicap</Typography> : '' }
-            </Link>
-        </Box>
+                <Typography href='#' color='primary' variant='subtitle2' className={classes.username}>
+                    {props.name}
+                    {props.shouldShowSub ? <Typography className={classes.userSubtitle}>Leodicap</Typography> : '' }
+                </Typography>
+            </Box>
+        </Link>
+
     );
 }
 

@@ -2,8 +2,7 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
 
 import 'typeface-roboto';
@@ -13,6 +12,7 @@ import {ThemeProvider} from "@material-ui/styles";
 import Layout from "./components/Common/Layout";
 
 import Home from "./components/Home";
+import Profile from "./components/Profile";
 
 const theme = createMuiTheme({
     palette: {
@@ -38,6 +38,11 @@ function App() {
                 <div className="App">
                     <Router>
                         <Switch>
+                            <Route exact path='/profile'>
+                                <Layout>
+                                    <Profile/>
+                                </Layout>
+                            </Route>
                             <Route exact path='/'>
                                 <Layout>
                                     <Home/>

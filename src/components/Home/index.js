@@ -1,7 +1,7 @@
 import React from 'react';
-import {Grid} from "@material-ui/core";
+import {Grid, Hidden} from "@material-ui/core";
 import PostList from "./PostList";
-import Avatar from "../Common/Avatar";
+import Avatar from "./User/Avatar";
 import Box from "@material-ui/core/Box";
 
 import AVATAR_IMG from '../../img/leo.jpg';
@@ -9,22 +9,24 @@ import Following from "./User/Following";
 import Suggested from "./User/Suggested";
 
 
-
 function Index() {
     return (
-        <Grid container spacing={2} justify='center' alignItems='center'>
-            <Grid item md={6}>
+        <Grid container item md={12} spacing={4}>
+            <Grid item xs={12} sm={12} md={8}>
                 <PostList/>
             </Grid>
-            <Grid item md={1}>
-                <Box>
-                    <Avatar img={AVATAR_IMG} name='Leo Dicap'/>
-                </Box>
+            <Hidden smDown>
+                <Grid item md={4}>
+                    <Box>
+                        <Avatar img={AVATAR_IMG} name='Leo Dicap' shouldShowSub={true}/>
+                    </Box>
                     <Following/>
                     <Suggested/>
-
-            </Grid>
+                </Grid>
+            </Hidden>
         </Grid>
+
+
     );
 }
 
