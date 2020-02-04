@@ -34,7 +34,7 @@ function Add(props) {
     };
 
     return (
-        <Box py={2} mt={2} display='flex' component='form'
+        <Box py={2} mt={2} display='flex' flexBasis='100%' component='form'
              borderTop={1} borderColor='secondary.light' alignItems='center'>
             <TextareaAutosize onChange={handleChange} aria-label="Add a comment…" placeholder="Add a comment…"
                       className={classes.comment} rowsMin={1} rowsMax={4}/>

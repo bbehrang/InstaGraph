@@ -33,7 +33,7 @@ const theme = createMuiTheme({
 function App() {
     return (
         <>
-            <CssBaseline/>
+            <CssBaseline />
             <ThemeProvider theme={theme}>
                 <div className="App">
                     <Router>

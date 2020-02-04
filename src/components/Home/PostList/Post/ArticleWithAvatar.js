@@ -17,37 +17,27 @@ const useStyles = makeStyles(theme => ({
     },
     hidden: {
         display: 'none'
-    },
-    avatar:{
-        marginRight: theme.spacing(1)
     }
 }));
 
-function Article(props) {
+function ArticleWithAvatar(props) {
     const classes = useStyles();
-    console.log(props);
-    const [wrap, setWrap] = useState(false);
+
+    const [wrap, setWrap] = useState(true);
 
     const entryRef = useRef(null);
     const entryBodyRef = useRef(null);
     const buttonRef = useRef(null);
-    const avatarRef = useRef(null);
 
     useEffect(() => { //show 'more' button if comment text overflows its container's width
+        const buttonRefWidth = buttonRef.current.clientWidth;
+        const entryRefWidth = entryRef.current.clientWidth;
+        const entryBodyRefWidth = entryBodyRef.current.clientWidth;
 
-        if(props.shouldAddElipsis){
-            const buttonRefWidth = buttonRef.current.clientWidth;
-            const entryRefWidth = entryRef.current.clientWidth;
-            const entryBodyRefWidth = entryBodyRef.current.clientWidth;
-            const avatarWidth = avatarRef.current ? avatarRef.current.clientWidth: 0;
-            const avatarMargin = avatarRef.current ? 8 : 0; // 8 = theme.spacing(2)
-
-
-            console.log(entryBodyRefWidth + buttonRefWidth + avatarWidth + avatarMargin , entryRefWidth);
-            if(entryBodyRefWidth + buttonRefWidth + avatarWidth + avatarMargin >= entryRefWidth){
-                setWrap(true);
-            }
+        if(entryBodyRefWidth + buttonRefWidth < entryRefWidth){
+            setWrap(false);
         }
+
     },[]);
 
     const handleMore = e => {
@@ -56,8 +46,7 @@ function Article(props) {
     };
 
     return (
-        <Box display='flex' width='100%' ref={entryRef} alignItems='center' py={0.5}>
-            {props.shouldShowAvatar ? <Avatar img={props.avatar} ref={avatarRef} className={classes.avatar}/> : null}
+        <Box display='flex' width='100%' ref={entryRef} alignItems='center'>
             <Typography variant='body2' noWrap={wrap} ref={entryBodyRef}>
                 <Link href="#" variant='subtitle2' className={classes.author}>
                     {props.author}
@@ -70,4 +59,4 @@ function Article(props) {
     );
 }
 
-export default Article;
+export default ArticleWithAvatar;

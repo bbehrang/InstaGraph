@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Post() {
+export default function Post(props) {
     const classes = useStyles();
 
     return (
@@ -35,8 +35,8 @@ export default function Post() {
             <Box width="95%" mx="auto">
                 <Actions/>
                 <Box px={2}>
-                    <Caption/>
-                    <CommentList/>
+                    <Caption />
+                    <CommentList comments={props.post.comments} shouldAddElipsis={true}/>
                     <AddComment/>
                 </Box>
             </Box>

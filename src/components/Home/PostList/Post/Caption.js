@@ -9,7 +9,7 @@ const author = `Leo dicaprio`;
 
 function Caption() {
     return (
-        <Article author={author} body={captionBody}/>
+        <Article author={author} body={captionBody} shouldAddElipsis={true}/>
     );
 }
 

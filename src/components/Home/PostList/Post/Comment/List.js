@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, {useState} from 'react';
+
 import Article from "../Article";
 
 import {makeStyles} from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
+
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
     viewAllButton: {
@@ -11,37 +12,41 @@ const useStyles = makeStyles(theme => ({
         border: 0,
         color: '#999',
         lineHeight: 'inherit',
-        margin: 0,
-        padding: 0,
+        padding: '5px 3px',
+        marginTop: theme.spacing(1),
         textTransform: 'none'
     },
 }));
 
-const COMMENTS = [
-    {author: 'behrang', body: 'hello this is a good comment'},
-    {
-        author: 'behrang',
-        body: 'very nice photo you are a true artist thanks for reading this comment send me 4$ please'
-    },
-    {author: 'behrang', body: 'god damn you is great, come to the hood we finna pop a henny'},
-    {author: 'behrang', body: 'hell yea'}
-];
 
-function List() {
+function List(props) {
     const classes = useStyles();
+    const comments = props.comments;
+    const [showCount, setShowCount] = useState(2);
 
-    if (COMMENTS) {
+    const showMore = () => {
+        setShowCount(showCount + 1);
+    };
+
+
+    if (comments) {
         return (
             <>
                 {
-                    COMMENTS.length > 1 ?
-                        <Link component={RouterLink} to='/something' className={classes.viewAllButton}>View all {COMMENTS.length} comments</Link>
-                        :
-                        null
+                    comments.slice(0, showCount)
+                        .map((comment, i) =>
+                            <Article key={i} author={comment.author}
+                                     body={comment.body}
+                                     shouldShowAvatar={props.shouldShowAvatar}
+                                     shouldAddElipsis={props.shouldAddElipsis}
+                            />)
                 }
                 {
-                    COMMENTS.map((comment, i) =>
-                            <Article key={i} author={comment.author} body={comment.body}/>)
+                    showCount < comments.length
+                        ?
+                        <Button className={classes.viewAllButton} onClick={showMore}>Show more comments</Button>
+                        :
+                        null
                 }
 
             </>
