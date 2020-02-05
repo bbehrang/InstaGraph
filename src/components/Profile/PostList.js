@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Grid from "@material-ui/core/Grid";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import {makeStyles} from "@material-ui/core/styles";

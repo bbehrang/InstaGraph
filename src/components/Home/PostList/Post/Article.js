@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 function Article(props) {
     const classes = useStyles();
-    console.log(props);
     const [wrap, setWrap] = useState(false);
 
     const entryRef = useRef(null);
@@ -42,13 +41,11 @@ function Article(props) {
             const avatarWidth = avatarRef.current ? avatarRef.current.clientWidth: 0;
             const avatarMargin = avatarRef.current ? 8 : 0; // 8 = theme.spacing(2)
 
-
-            console.log(entryBodyRefWidth + buttonRefWidth + avatarWidth + avatarMargin , entryRefWidth);
             if(entryBodyRefWidth + buttonRefWidth + avatarWidth + avatarMargin >= entryRefWidth){
                 setWrap(true);
             }
         }
-    },[]);
+    },[props.shouldAddElipsis]);
 
     const handleMore = e => {
         e.preventDefault();

@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     following: {
         overflowX: 'hidden',
         overflowY: 'scroll'
+    },
+    pointer:{
+        cursor: 'pointer'
     }
 }));
 
@@ -22,7 +25,7 @@ function Following(props) {
                 <Typography variant='subtitle2' component='div' color='secondary'>
                     Following
                 </Typography>
-                <Typography variant='subtitle2' component='div'>
+                <Typography variant='subtitle2' component='div' className={classes.pointer}>
                     See All
                 </Typography>
             </Box>
