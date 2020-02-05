@@ -3,8 +3,6 @@ import React from 'react';
 import Header from "./Header";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
-import {useMediaQuery} from "@material-ui/core";
-
 
 const useStyles = makeStyles(theme => ({
     body: {
@@ -23,12 +21,12 @@ export default function Layout(props) {
         <>
             <Grid container justify='center'>
                 <Grid container item xs={12} className={classes.headerContainer} justify='center'>
-                    <Grid item xs={12} md={9}>
+                    <Grid item xs={11} md={10}>
                         <Header/>
                     </Grid>
                 </Grid>
                 <Grid container item xs={12} justify='center'>
-                    <Grid container item sm={12} md={9} className={classes.body}>
+                    <Grid container item sm={12} md={10} className={classes.body}>
                         {props.children}
                     </Grid>
                 </Grid>

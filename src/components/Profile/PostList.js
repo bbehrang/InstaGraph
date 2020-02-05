@@ -7,6 +7,7 @@ import POST_IMG from '../../img/post.jpg';
 import AVATAR_IMG from '../../img/leo.jpg';
 import {Link} from "react-router-dom";
 import Modal from "../Common/Modal";
+import {useMediaQuery} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,12 +49,28 @@ const posts = [
 
 function PostList(props) {
     const classes = useStyles();
+    const xsDown = useMediaQuery(theme => theme.breakpoints.down('xs'));
+    const smDown = useMediaQuery(theme => theme.breakpoints.down('sm'));
+    const mdUp = useMediaQuery(theme => theme.breakpoints.up('md'));
+
+    let height = 200;
+    let spacing = 10;
+    if (xsDown) {
+        height = 118;
+        spacing = 1;
+    } else if (smDown) {
+        height = 210;
+        spacing = 5;
+    } else if (mdUp) {
+        height = 293;
+        spacing = 32;
+    }
 
     const [showModal, setShowModal] = useState(false);
 
     const handleOpen = e => {
-      e.preventDefault();
-      setShowModal(true);
+        e.preventDefault();
+        setShowModal(true);
     };
 
     const handleClose = () => {
@@ -63,7 +80,7 @@ function PostList(props) {
     return (
         <>
             <Modal open={showModal} handleClose={handleClose} post={posts[0]}/>
-            <GridList cellHeight={293} spacing={32} className={classes.gridList} cols={3}>
+            <GridList cellHeight={height} spacing={spacing} className={classes.gridList} cols={3}>
                 {posts.map((post, id) => (
                     <GridListTile key={id} cols={post.cols || 1} component={Link} to='/1' onClick={handleOpen}>
                         <img src={post.img} alt={post.title}/>

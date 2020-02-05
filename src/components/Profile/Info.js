@@ -3,28 +3,33 @@ import {Box} from "@material-ui/core";
 import MuiAvatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
     avatar: {
         width: '150px',
-        height: '150px'
+        height: '150px',
+        margin: '0 auto'
     },
-    name:{
+    name: {
         paddingBottom: theme.spacing(2),
         fontWeight: 'normal',
+        [theme.breakpoints.down('sm')]:{
+            marginTop: theme.spacing(2),
+            textAlign: 'center'
+        }
     },
     info: {
         fontWeight: 'normal',
-        marginRight: theme.spacing(2),
     },
-    bold:{
-        fontWeight:500
+    bold: {
+        fontWeight: 500
     },
-    fullName:{
+    fullName: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1)
     },
-    description:{
+    description: {
         paddingBottom: theme.spacing(2)
     }
 
@@ -33,31 +38,39 @@ const useStyles = makeStyles(theme => ({
 function Info(props) {
     const classes = useStyles();
     return (
-        <Box display='flex' alignItems='center'>
-            <MuiAvatar src={props.img} className={classes.avatar}/>
-            <Box ml={3}>
+        <Grid container item xs={12}>
+            <Grid item xs={12} md={5}>
+                <MuiAvatar src={props.img} className={classes.avatar}/>
+            </Grid>
+
+            <Grid item xs={12} md={7}>
                 <Typography variant='h4' component='h2' display='block' className={classes.name}>
                     Leonardo Dicaprio
                 </Typography>
-                <Typography variant='subtitle1' component='span' className={classes.info}>
-                    <b className={classes.bold}>106</b> posts
-                </Typography>
-                <Typography variant='subtitle1' component='span' className={classes.info}>
-                    <b className={classes.bold}>304</b> followers
-                </Typography>
-                <Typography variant='subtitle1' component='span' className={classes.info}>
-                    <b className={classes.bold}>304</b> following
-                </Typography>
-                <Typography variant='body1' component='div' className={classes.fullName}>
-                    <b>Leonardo DiCaprio</b>
-                </Typography>
-                <Typography variant='body2' component='div' className={classes.description}>
-                    Actor and Environmentalist
-                    Follow @EarthAlliance to get involved
-                    australiawildfirefund.org
-                </Typography>
-            </Box>
-        </Box>
+                <Box display='flex' justifyContent='space-between'>
+                    <Typography variant='subtitle1' component='span' className={classes.info}>
+                        <b className={classes.bold}>106</b> posts
+                    </Typography>
+                    <Typography variant='subtitle1' component='span' className={classes.info}>
+                        <b className={classes.bold}>304</b> followers
+                    </Typography>
+                    <Typography variant='subtitle1' component='span' className={classes.info}>
+                        <b className={classes.bold}>304</b> following
+                    </Typography>
+                </Box>
+                <Box mt={{xs:1}}>
+                    <Typography variant='body1' component='div' className={classes.fullName}>
+                        <b>Leonardo DiCaprio</b>
+                    </Typography>
+                    <Typography variant='body2' component='div' className={classes.description}>
+                        Actor and Environmentalist
+                        Follow @EarthAlliance to get involved
+                        australiawildfirefund.org
+                    </Typography>
+                </Box>
+
+            </Grid>
+        </Grid>
     );
 }
 

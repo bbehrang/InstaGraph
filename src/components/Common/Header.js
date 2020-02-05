@@ -7,7 +7,6 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import Link from "@material-ui/core/Link";
 import {makeStyles} from "@material-ui/core/styles";
 
-
 const useStyles = makeStyles(theme => ({
     logo:{
         display: 'flex',
@@ -25,7 +24,7 @@ function Header(props) {
     const classes = useStyles();
 
     return (
-        <Box display='flex' alignItems='center'  bgcolor='white' justifyContent='space-between' px={{xs: 2}}>
+        <Box display='flex' alignItems='center'  bgcolor='white' justifyContent='space-between'>
             <Box display='flex' alignItems='center' justifyContent='space-between' >
                 <Link component={RouterLink} to='/' className={classes.logo}>
                     <InstagramIcon fontSize='large'/>
@@ -41,9 +40,7 @@ function Header(props) {
                 <Link component={RouterLink} to='profile'>
                     <PersonOutlineIcon fontSize='large'/>
                 </Link>
-
             </Box>
-
         </Box>
     );
 }
