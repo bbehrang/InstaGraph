@@ -43,6 +43,11 @@ function App() {
                                     <Profile/>
                                 </Layout>
                             </Route>
+{/*                            <Route path='/p/:id'>
+                                <Layout>
+                                    <
+                                </Layout>
+                            </Route>*/}
                             <Route exact path='/'>
                                 <Layout>
                                     <Home/>

@@ -27,9 +27,9 @@ export default function Modal(props) {
                 open={props.open}
                 onClose={handleClose}
             >
-                <Grid container item md={9} className={classes.paper} justify='center'>
+                <Grid container item xs={12} md={9} className={classes.paper} justify='center'>
                     <ModalContent>
-                        <Post post={props.post}/>
+                        { (props && props.post) ? <Post post={props.post}/> : ''}
                     </ModalContent>
                 </Grid>
 

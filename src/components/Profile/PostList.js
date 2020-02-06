@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import {makeStyles} from "@material-ui/core/styles";
 
 import POST_IMG from '../../img/post.jpg';
 import AVATAR_IMG from '../../img/leo.jpg';
-import {Link} from "react-router-dom";
+import {Link, useHistory, useRouteMatch} from "react-router-dom";
 import Modal from "../Common/Modal";
 import {useMediaQuery} from "@material-ui/core";
 
@@ -55,31 +55,32 @@ function PostList(props) {
     const gridListRef = useRef(null);
     const [showCount, setShowCount] = useState(9);
     const [height, setHeight] = useState(293);
+    const [spacing, setSpacing] = useState(10);
+    const [post, setPost] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const postId = useRouteMatch("/p/:id");
+    const history = useHistory();
 
     const setHeightOnResize = () => {
       setHeight(gridListRef && gridListRef.current ? gridListRef.current.clientWidth / 3 : 293);
     };
-    useEffect(() => {
+    useLayoutEffect(() => {
         window.addEventListener('resize', setHeightOnResize);
         setHeightOnResize();
+        if (xsDown) {
+            setSpacing(2)
+        } else if (smDown) {
+            setSpacing(16);
+        } else if (mdUp) {
+            setSpacing(32);
+        }
     },[]);
-
-
-    let spacing = 10;
-    if (xsDown) {
-        spacing = 2;
-    } else if (smDown) {
-        spacing = 16;
-    } else if (mdUp) {
-        // height = 293;
-        spacing = 32;
-    }
-
-    const [showModal, setShowModal] = useState(false);
-
     const handleOpen = e => {
         e.preventDefault();
-        setShowModal(true);
+        let postId = e.target ? e.target.getAttribute('postid') : -1;
+        if(smDown)
+            history.push(`/p/${postId}`);
+        else setShowModal(true);
     };
 
     const handleClose = () => {
@@ -94,8 +95,8 @@ function PostList(props) {
                     posts.slice(0, showCount)
                         .map((post, id) => (
                             <GridListTile key={id} cols={1} rows={1}
-                                          component={Link} to='/1' onClick={handleOpen}>
-                                <img src={post.img} alt={post.title}/>
+                                          component={Link} to={`/p/${id}`} onClick={handleOpen}>
+                                <img src={post.img} alt={post.title} postid={id}/>
                             </GridListTile>
                         ))
                 }
