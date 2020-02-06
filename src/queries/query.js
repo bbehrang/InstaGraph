@@ -38,6 +38,25 @@ export const GetUserQuery = gql`
         }
     }
 `;
+export const GetPostsQuery = gql`
+    query posts($id: ID!){
+        posts(id: $id){
+            posts{
+                id
+                caption
+                media
+                likes
+                comments
+                createdAt
+                author{
+                    id
+                    username
+                    avatar
+                }
+            }
+        }
+    }
+`;
 export const GetSuggested = gql`
     query suggested($id: ID!){
         suggested(id: $id){

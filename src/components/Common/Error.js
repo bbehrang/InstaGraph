@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 
 function Error(props) {
-    console.log(props);
     return (
         <Grid container justify='center' item xs={11}>
             <Typography variant='h4' component='h2' align='center'>

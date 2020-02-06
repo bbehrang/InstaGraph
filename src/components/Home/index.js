@@ -9,6 +9,10 @@ import PostList from "./PostList";
 import Avatar from "./User/Avatar";
 
 import AVATAR_IMG from '../../img/leo.jpg';
+import Error from "../Common/Error";
+import {useQuery} from "@apollo/react-hooks";
+import {GetPostsQuery} from "../../queries/query";
+import Loading from "../Common/Loading";
 
 const useStyles = makeStyles(theme => ({
     rightPanel: {
@@ -20,26 +24,35 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function Index() {
+function Index(props) {
     const classes = useStyles();
     const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
     const hideRightPanel = useMediaQuery('(max-width:1000px)');
-    return (
-        <Grid container item xs={12} md={12} spacing={isMobile ? 0 : 4}>
-            <Grid item xs={12} sm={12} md={hideRightPanel ? 12 : 8}>
-                <PostList/>
-            </Grid>
-            <Hidden smDown>
-                <Grid item md={4} className={classes.rightPanel}>
-                    <Box>
-                        <Avatar img={AVATAR_IMG} name='Leo Dicap' shouldShowSub={true}/>
-                    </Box>
-                    <Following/>
-                    <Suggested/>
+    const {loading, error, data} = useQuery(GetPostsQuery, {
+        variables: {id: props.user ? props.user.id : -1}
+    });
+
+    const {user} = props;
+    if(user){
+        return (
+            <Grid container item xs={12} md={12} spacing={isMobile ? 0 : 4}>
+                <Grid item xs={12} sm={12} md={hideRightPanel ? 12 : 8}>
+                    <PostList posts={user.posts ? user.posts : null}/>
                 </Grid>
-            </Hidden>
-        </Grid>
-    );
+                <Hidden smDown>
+                    <Grid item md={4} className={classes.rightPanel}>
+                        <Box>
+                            <Avatar img={AVATAR_IMG} name='Leo Dicap' shouldShowSub={true}/>
+                        </Box>
+                        <Following/>
+                        <Suggested/>
+                    </Grid>
+                </Hidden>
+            </Grid>
+        );
+    }
+    return <Error/>
+
 }
 
 export default Index;
