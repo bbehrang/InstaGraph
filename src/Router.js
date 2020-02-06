@@ -9,7 +9,6 @@ import { useApolloClient } from "@apollo/react-hooks";
 import Layout from "./components/Common/Layout";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
-import Loading from "./components/Common/Loading";
 
 import {GetUserQuery} from './queries/query'
 import {useQuery} from "@apollo/react-hooks";
@@ -19,8 +18,6 @@ function AppRouter(props) {
     const {loading, error, data} = useQuery(GetUserQuery, {
         variables: {id: "5dd55fcb1c9d440000a9d26d"}
     });
-    const client = useApolloClient();
-
 
     if (error) return (
         <BrowserRouter>
@@ -30,7 +27,6 @@ function AppRouter(props) {
         </BrowserRouter>
     );
     if(loading){
-        client.writeData({data: {loading: loading}});
         return (
             <BrowserRouter>
                 <Layout loading={loading}/>
@@ -38,7 +34,6 @@ function AppRouter(props) {
         )
     }
     if(data){
-        client.writeData({data: {loading: loading}});
         return (
             <BrowserRouter>
                 <Layout>

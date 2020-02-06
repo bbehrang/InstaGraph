@@ -45,14 +45,24 @@ export const GetPostsQuery = gql`
                 id
                 caption
                 media
-                likes
-                comments
-                createdAt
-                author{
-                    id
+                likes{
                     username
                     avatar
                 }
+                comments{
+                    body
+                    createdAt
+                    author{
+                        username
+                        avatar
+                    }
+                }
+                createdAt
+            }
+            author{
+                id
+                username
+                avatar
             }
         }
     }

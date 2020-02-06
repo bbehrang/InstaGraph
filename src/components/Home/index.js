@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {Grid, Hidden, Box, useMediaQuery} from "@material-ui/core";
 import {makeStyles} from "@material-ui/styles";
@@ -10,9 +10,10 @@ import Avatar from "./User/Avatar";
 
 import AVATAR_IMG from '../../img/leo.jpg';
 import Error from "../Common/Error";
-import {useQuery} from "@apollo/react-hooks";
+import {useApolloClient, useMutation, useQuery} from "@apollo/react-hooks";
 import {GetPostsQuery} from "../../queries/query";
 import Loading from "../Common/Loading";
+import {SetLoadingStatus} from "../../queries/local";
 
 const useStyles = makeStyles(theme => ({
     rightPanel: {
@@ -28,9 +29,15 @@ function Index(props) {
     const classes = useStyles();
     const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
     const hideRightPanel = useMediaQuery('(max-width:1000px)');
+
     const {loading, error, data} = useQuery(GetPostsQuery, {
         variables: {id: props.user ? props.user.id : -1}
     });
+     const [setLoading] = useMutation(SetLoadingStatus,{ variables: {value: false}});
+
+     useEffect(() => {
+         setLoading({variables: {value: loading}});
+     }, [loading]);
 
     const {user} = props;
     if(user){
@@ -42,7 +49,7 @@ function Index(props) {
                 <Hidden smDown>
                     <Grid item md={4} className={classes.rightPanel}>
                         <Box>
-                            <Avatar img={AVATAR_IMG} name='Leo Dicap' shouldShowSub={true}/>
+                            <Avatar img={AVATAR_IMG} name='Leo Dicap' shouldShowSub={true} />
                         </Box>
                         <Following/>
                         <Suggested/>

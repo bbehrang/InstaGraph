@@ -6,6 +6,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import Header from "./Header";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Box from "@material-ui/core/Box";
+import {useQuery} from "@apollo/react-hooks";
+import {GetLoadingStatus} from "../../queries/local";
 
 const useStyles = makeStyles(theme => ({
     body: {
@@ -19,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Layout(props) {
     const classes = useStyles();
+    const { data } = useQuery(GetLoadingStatus);
 
     return (
         <>
@@ -27,7 +30,7 @@ export default function Layout(props) {
                     <Grid item xs={11} md={10}>
                         <Header/>
                     </Grid>
-                    <Box width='100%'>{props.loading ? <LinearProgress/> : ''}</Box>
+                    <Box width='100%'>{data.loading && data.loading.value ? <LinearProgress/> : ''}</Box>
                 </Grid>
                 <Grid container item xs={12} justify='center'>
                     <Grid container item sm={12} md={10} className={classes.body}>
