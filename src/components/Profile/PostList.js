@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import {makeStyles} from "@material-ui/core/styles";
@@ -52,17 +52,26 @@ function PostList(props) {
     const xsDown = useMediaQuery(theme => theme.breakpoints.down('xs'));
     const smDown = useMediaQuery(theme => theme.breakpoints.down('sm'));
     const mdUp = useMediaQuery(theme => theme.breakpoints.up('md'));
+    const gridListRef = useRef(null);
+    const [showCount, setShowCount] = useState(9);
+    const [height, setHeight] = useState(293);
 
-    let height = 200;
+    const setHeightOnResize = () => {
+      setHeight(gridListRef && gridListRef.current ? gridListRef.current.clientWidth / 3 : 293);
+    };
+    useEffect(() => {
+        window.addEventListener('resize', setHeightOnResize);
+        setHeightOnResize();
+    },[]);
+
+
     let spacing = 10;
     if (xsDown) {
-        height = 118;
-        spacing = 1;
+        spacing = 2;
     } else if (smDown) {
-        height = 210;
-        spacing = 5;
+        spacing = 16;
     } else if (mdUp) {
-        height = 293;
+        // height = 293;
         spacing = 32;
     }
 
@@ -80,12 +89,16 @@ function PostList(props) {
     return (
         <>
             <Modal open={showModal} handleClose={handleClose} post={posts[0]}/>
-            <GridList cellHeight={height} spacing={spacing} className={classes.gridList} cols={3}>
-                {posts.map((post, id) => (
-                    <GridListTile key={id} cols={post.cols || 1} component={Link} to='/1' onClick={handleOpen}>
-                        <img src={post.img} alt={post.title}/>
-                    </GridListTile>
-                ))}
+            <GridList ref={gridListRef} cellHeight={height} spacing={spacing} className={classes.gridList} cols={3}>
+                {
+                    posts.slice(0, showCount)
+                        .map((post, id) => (
+                            <GridListTile key={id} cols={1} rows={1}
+                                          component={Link} to='/1' onClick={handleOpen}>
+                                <img src={post.img} alt={post.title}/>
+                            </GridListTile>
+                        ))
+                }
             </GridList>
         </>
     );
