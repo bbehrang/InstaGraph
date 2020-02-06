@@ -1,14 +1,14 @@
 import React from 'react';
-import {Grid, Hidden, useMediaQuery} from "@material-ui/core";
-import PostList from "./PostList";
-import Avatar from "./User/Avatar";
-import Box from "@material-ui/core/Box";
 
-import AVATAR_IMG from '../../img/leo.jpg';
-import Following from "./User/Following";
-import Suggested from "./User/Suggested";
+import {Grid, Hidden, Box, useMediaQuery} from "@material-ui/core";
 import {makeStyles} from "@material-ui/styles";
 
+import Following from "./User/Following";
+import Suggested from "./User/Suggested";
+import PostList from "./PostList";
+import Avatar from "./User/Avatar";
+
+import AVATAR_IMG from '../../img/leo.jpg';
 
 const useStyles = makeStyles(theme => ({
     rightPanel: {
@@ -17,6 +17,8 @@ const useStyles = makeStyles(theme => ({
         }
     }
 }));
+
+
 
 function Index() {
     const classes = useStyles();
@@ -37,8 +39,6 @@ function Index() {
                 </Grid>
             </Hidden>
         </Grid>
-
-
     );
 }
 

@@ -1,11 +1,13 @@
 import React from 'react';
-import Box from "@material-ui/core/Box";
-import InstagramIcon from '@material-ui/icons/Instagram';
 import {Link as RouterLink} from "react-router-dom";
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+
+import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import {makeStyles} from "@material-ui/core/styles";
+
+import InstagramIcon from '@material-ui/icons/Instagram';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 
 const useStyles = makeStyles(theme => ({
     logo:{
@@ -20,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function Header(props) {
+function Header() {
     const classes = useStyles();
 
     return (

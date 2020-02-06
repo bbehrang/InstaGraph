@@ -1,8 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MuiModal from '@material-ui/core/Modal';
-import Post from "../Profile/Post";
+
 import Grid from "@material-ui/core/Grid";
+import MuiModal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+import Post from "../Profile/Post";
 import ModalContent from "./ModalContent";
 
 
@@ -32,7 +35,6 @@ export default function Modal(props) {
                         { (props && props.post) ? <Post post={props.post}/> : ''}
                     </ModalContent>
                 </Grid>
-
             </MuiModal>
     );
 }

@@ -1,8 +1,9 @@
-import Post from "./Post/Post";
 import React from "react";
+
+import Post from "./Post/Post";
+
 import AVATAR_IMG from "../../../img/leo.jpg";
 import POST_IMG from "../../../img/post.jpg";
-
 
 const COMMENTS = [
     {avatar: AVATAR_IMG, author: 'behrang', body: 'hello this is a good comment'},

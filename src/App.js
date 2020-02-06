@@ -1,18 +1,14 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from "react-router-dom";
+import ApolloClient from "apollo-boost";
+import {ApolloProvider} from '@apollo/react-hooks';
 
 import 'typeface-roboto';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {CssBaseline} from '@material-ui/core';
 import {ThemeProvider} from "@material-ui/styles";
-import Layout from "./components/Common/Layout";
 
-import Home from "./components/Home";
-import Profile from "./components/Profile";
+import AppRouter from "./Router";
+
 
 const theme = createMuiTheme({
     palette: {
@@ -30,34 +26,20 @@ const theme = createMuiTheme({
     }
 });
 
+
 function App() {
+    const client = new ApolloClient({
+        uri: 'http://localhost:4000/graphql',
+    });
     return (
-        <>
-            <CssBaseline />
+        <ApolloProvider client={client}>
+            <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <div className="App">
-                    <Router>
-                        <Switch>
-                            <Route exact path='/profile'>
-                                <Layout>
-                                    <Profile/>
-                                </Layout>
-                            </Route>
-{/*                            <Route path='/p/:id'>
-                                <Layout>
-                                    <
-                                </Layout>
-                            </Route>*/}
-                            <Route exact path='/'>
-                                <Layout>
-                                    <Home/>
-                                </Layout>
-                            </Route>
-                        </Switch>
-                    </Router>
+                    <AppRouter/>
                 </div>
             </ThemeProvider>
-        </>
+        </ApolloProvider>
     );
 }
 
