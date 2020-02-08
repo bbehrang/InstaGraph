@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     BrowserRouter,
     Switch,
     Route
 } from "react-router-dom";
-import { useApolloClient } from "@apollo/react-hooks";
 
 import Layout from "./components/Common/Layout";
 import Profile from "./components/Profile";

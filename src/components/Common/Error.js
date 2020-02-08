@@ -11,7 +11,8 @@ function Error(props) {
             </Typography>
             <Box mt={5}>
                 <Typography variant = 'body1'>
-                    Try again and if error persists, please contact support
+                    Try again and if error persists, please contact support<br/>
+                    {props.error ? props.error : ''}
                 </Typography>
             </Box>
         </Grid>

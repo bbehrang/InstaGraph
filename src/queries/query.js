@@ -39,9 +39,9 @@ export const GetUserQuery = gql`
     }
 `;
 export const GetPostsQuery = gql`
-    query posts($id: ID!){
-        posts(id: $id){
-            posts{
+    query feed($id: ID!){
+        feed(id: $id){
+            post{
                 id
                 caption
                 media

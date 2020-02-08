@@ -24,11 +24,11 @@ function Avatar(props) {
     return (
         <Box display='flex' alignItems='center' component='header' p={2}>
             <Link href='#' color='primary'>
-                <MuiAvatar alt="Remy Sharp" src={props.img}/>
+                <MuiAvatar alt={props.fullname} src={props.img}/>
             </Link>
             <Link href='#' color='primary' variant='subtitle2' className={classes.username}>
                 {props.name}
-                {props.shouldShowSub ? <Typography className={classes.userSubtitle}>Leodicap</Typography> : '' }
+                {props.shouldShowSub ? <Typography className={classes.userSubtitle}>{props.username}</Typography> : '' }
             </Link>
         </Box>
     );

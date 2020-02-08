@@ -31,7 +31,7 @@ function Avatar(props) {
                 <MuiAvatar alt="Remy Sharp" src={props.img}/>
                 <Typography href='#' color='primary' variant='subtitle2' className={classes.username}>
                     {props.name}
-                    {props.shouldShowSub ? <Typography className={classes.userSubtitle}>Leodicap</Typography> : '' }
+                    {props.shouldShowSub ? <Typography className={classes.userSubtitle}>{props.username}</Typography> : '' }
                 </Typography>
             </Box>
         </Link>
