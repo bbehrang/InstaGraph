@@ -40,7 +40,10 @@ export async function getPostsByUser(id){
 export async function getFeedByUser(id){
     try{
         const user = await User.findById(id);
-        const users = await User.find({_id : {$in : user.following}}).select("id username avatar posts");
+        const users = await User.find({_id : {$in : user.following}})
+            .select("id fullname username avatar posts")
+            .populate("posts.comments.author", "username id");
+        console.log(users[0]);
         let mappedPost = [];
         users.forEach(user => {
             user.posts.forEach(post => {
