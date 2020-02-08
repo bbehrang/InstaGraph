@@ -1,22 +1,15 @@
 import express from "express";
 import cors from "cors";
-import session from 'express-session';
-import uuid from 'uuid/v4';
 import graphqlHTTP from "express-graphql";
 
-import {PORT, SECRET} from "./config.js";
+import {PORT, DB_PATH} from "./config.js";
 import connectToDb from "./database.js";
 import schema from "./graphql/schema.js";
 
-connectToDb(PORT).then(() => {
+connectToDb(DB_PATH).then(() => {
     const app = express();
     app.use(cors());
-    app.use(session({
-        genid: (req) => uuid(),
-        secret: SECRET,
-        resave: false,
-        saveUninitialized: false,
-    }));
+
     app.use('/graphql', graphqlHTTP({
         schema,
         graphiql: true,

@@ -1,7 +1,7 @@
 import graphql from "graphql";
 
 import {getAllUsers, getSuggestedById, getUsersById, UserType} from "./models/user.js";
-import {getPostsByUser, PostType} from "./models/post.js";
+import {getPostsByUser, getFeedByUser, PostType, FeedPostType} from "./models/post.js";
 
 const {GraphQLObjectType, GraphQLID, GraphQLList, GraphQLNonNull} = graphql;
 
@@ -37,6 +37,14 @@ export const RootQuery = new GraphQLObjectType({
             resolve(parent, args){
                 return getPostsByUser(args.id)
             }
+        },
+        feed: {
+            type: new GraphQLList(FeedPostType),
+            args: {id : { type: GraphQLID}},
+            resolve(parent, args){
+                return getFeedByUser(args.id)
+            }
         }
+
     }
 });

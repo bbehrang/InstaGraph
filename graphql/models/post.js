@@ -14,7 +14,14 @@ export const PostType = new GraphQLObjectType({
         media: {type: GraphQLString},
         createdAt: {type: GraphQLString},
         likes : {type: new GraphQLList(UserType)},
-        comments: {type: new GraphQLList(CommentType)}
+        comments: {type: new GraphQLList(CommentType)},
+    })
+});
+export const FeedPostType = new GraphQLObjectType({
+    name: 'Feed',
+    fields : () => ({
+        post: {type: PostType},
+        author : {type: UserType}
     })
 });
 //Resolvers
@@ -23,8 +30,24 @@ export async function getPostsByUser(id){
         const user = await User.findById(id);
         const users = await User.find({_id : {$in : user.following}}).select("posts");
         const mappedPosts = users.map(user => user.posts);
-        const posts = [].concat.apply([], mappedPosts);
-        return posts;
+        return [].concat.apply([], mappedPosts);
+    }
+    catch (error) {
+        console.log(error);
+        return new Error(error);
+    }
+}
+export async function getFeedByUser(id){
+    try{
+        const user = await User.findById(id);
+        const users = await User.find({_id : {$in : user.following}}).select("id username avatar posts");
+        let mappedPost = [];
+        users.forEach(user => {
+            user.posts.forEach(post => {
+                mappedPost.push({author : user, post: post});
+            });
+        });
+        return mappedPost;
     }
     catch (error) {
         console.log(error);

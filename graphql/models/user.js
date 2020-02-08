@@ -80,7 +80,7 @@ export async function follow(id, follow){
     try{
         const user = await User.findById(id);
         const toFollow = await User.findById(follow);
-
+        if(user._id.toString() === toFollow._id.toString()) return new Error("Users can't follow themselves");
         const fromUserIndex = user.following.findIndex( userId => toFollow._id.toString() === userId.toString());
         const fromFollowedIndex = toFollow.followers.findIndex( userId => user._id.toString() === userId.toString());
 
