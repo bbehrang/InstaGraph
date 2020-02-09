@@ -63,6 +63,7 @@ export const GetPostsQuery = gql`
                 id
                 username
                 avatar
+                fullname
             }
         }
     }

@@ -3,7 +3,6 @@ import Post from "./Post/Post";
 import Error from "../../Common/Error";
 
 export default function (props) {
-    console.log(props);
     return (
         <>
             {

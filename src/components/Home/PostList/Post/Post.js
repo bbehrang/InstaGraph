@@ -11,30 +11,32 @@ import Error from "../../../Common/Error";
 
 const useStyles = makeStyles(theme => ({
     postImage: {
-        width: '100%',
         maxHeight: '750px',
-        objectFit: 'cover'
+        objectFit: 'contain'
     },
     postBody: {
-        maxHeight: '750px'
+        maxHeight: '750px',
+        textAlign: 'center'
     },
 }));
 
 export default function Post(props) {
+
     const classes = useStyles();
-    if(props.post){
+    const {post}  = props;
+    if(post){
         return (
             <Box display='block' overflow='hidden' component='article'
                  border={1} borderColor='secondary.light' borderRadius={2} mb={5} bgcolor='white'>
-                <Avatar name={props.post.author.fullname} img={props.post.author.avatar}/>
+                <Avatar username={post.author.username} fullname ={post.author.fullname} img={post.author.avatar}/>
                 <div className={classes.postBody}>
-                    <img src={props.post.media} alt='post' className={classes.postImage}/>
+                    <img src={post.post.media} alt='post' className={classes.postImage}/>
                 </div>
                 <Box width="95%" mx="auto">
-                    <Actions/>
+                    <Actions postId={post.post.id} postAuthor={post.author.id} isLiked={post.post.likes}/>
                     <Box px={2}>
-                        <Caption />
-                        <CommentList comments={props.post.comments} shouldAddElipsis={true}/>
+                        <Caption author={post.author.username} body={post.post.caption}/>
+                        <CommentList comments={post.post.comments} shouldAddElipsis={true}/>
                         <AddComment/>
                     </Box>
                 </Box>

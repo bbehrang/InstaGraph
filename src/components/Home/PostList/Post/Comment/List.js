@@ -5,6 +5,7 @@ import Article from "../Article";
 import {makeStyles} from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
+import Error from "../../../../Common/Error";
 
 const useStyles = makeStyles(theme => ({
     viewAllButton: {
@@ -21,7 +22,8 @@ const useStyles = makeStyles(theme => ({
 
 function List(props) {
     const classes = useStyles();
-    const comments = props.comments;
+    const {comments} = props;
+    console.log(comments);
     const [showCount, setShowCount] = useState(2);
 
     const showMore = () => {
@@ -35,7 +37,7 @@ function List(props) {
                 {
                     comments.slice(0, showCount)
                         .map((comment, i) =>
-                            <Article key={i} author={comment.author}
+                            <Article key={i} author={comment.author.username}
                                      body={comment.body}
                                      shouldShowAvatar={props.shouldShowAvatar}
                                      shouldAddElipsis={props.shouldAddElipsis}
@@ -53,7 +55,7 @@ function List(props) {
 
         );
     } else {
-        return (<></>);
+        return (<Error/>);
     }
 }
 

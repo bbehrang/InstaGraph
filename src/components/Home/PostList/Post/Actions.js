@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -18,14 +18,22 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function Actions() {
+function Actions(props) {
     const classes = useStyles();
+    const [like, setLike] = useState(false);
+    useEffect(() => {
+
+    }, []);
+    const handleLike = e => {
+
+
+    };
 
     return (
         <Box display='flex' py={2}>
             <Box className={classes.icons}>
                 <IconButton color='primary'>
-                    <FavoriteBorderIcon/>
+                    <FavoriteBorderIcon onClick={handleLike}/>
                 </IconButton>
             </Box>
             <Box className={classes.icons}>

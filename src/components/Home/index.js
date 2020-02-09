@@ -36,7 +36,6 @@ function Index(props) {
     }, [loading]);
 
     if (error) return <Error/>;
-
     const {user} = props;
     if (user) {
         if(loading) return (<></>);
