@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 export default function Layout(props) {
     const classes = useStyles();
     const { data } = useQuery(GetLoadingStatus);
-    console.log(data.loading, data.loading.value);
     return (
         <>
             <Grid container justify='center'>
@@ -30,7 +29,7 @@ export default function Layout(props) {
                     <Grid item xs={11} md={10}>
                         <Header/>
                     </Grid>
-                    <Box width='100%'>{ (data.loading && data.loading.value) ? <LinearProgress/> : '' }</Box>
+                    <Box width='100%'>{ (data.loading) ? <LinearProgress/> : '' }</Box>
                 </Grid>
                 <Grid container item xs={12} justify='center'>
                     <Grid container item sm={12} md={10} className={classes.body}>

@@ -3,9 +3,7 @@ import {gql} from "apollo-boost";
 export const GetLoadingStatus = gql`
     query GetLoading
     {
-        loading @client{
-            value
-        }
+        loading @client
     }
 `;
 export const SetLoadingStatus = gql`

@@ -30,31 +30,32 @@ const theme = createMuiTheme({
 
 
 function App() {
+
+    const cache = new InMemoryCache();
+    cache.writeData({
+        data:{
+            loading: true
+        }
+    });
     const client = new ApolloClient({
-        cache: new InMemoryCache(),
-        clientState:{
-            defaults: {
-                loading: {
-                    value: true,
-                    __typename: "Loading"
+        cache : cache,
+        uri: 'http://localhost:4000/graphql',
+        resolvers: {
+            Mutation:{
+                setLoading: (parent, {value}, {cache, getCacheKey}) => {
+                    cache.writeData({data: {
+                        loading: value
+                        }});
+                    return null;
                 }
             },
-            resolvers: {
-                Mutation:{
-                    setLoading: (parent, args, {cache}) => {
-                        cache.writeData({__typename: "Loading", args});
-                    }
-
-                },
-                Query:{
-                    GetLoading: (parent, args, {cache}) => {
-                        const {loading} = cache.readQuery({query: GetLoadingStatus});
-                        return loading;
-                    }
+            Query:{
+                GetLoading: (parent, args, {cache}) => {
+                    const {loading} = cache.readQuery({query: GetLoadingStatus});
+                    return loading;
                 }
             }
-        },
-        uri: 'http://localhost:4000/graphql',
+        }
 
     });
     return (
