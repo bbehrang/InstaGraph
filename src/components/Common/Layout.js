@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 export default function Layout(props) {
     const classes = useStyles();
     const { data } = useQuery(GetLoadingStatus);
-    console.log(data.loading && data.loading.value);
+    console.log(data.loading, data.loading.value);
     return (
         <>
             <Grid container justify='center'>

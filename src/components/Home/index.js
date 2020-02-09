@@ -11,7 +11,7 @@ import Avatar from "./User/Avatar";
 import Error from "../Common/Error";
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import {GetPostsQuery} from "../../queries/query";
-import {SetLoadingStatus} from "../../queries/local";
+import {GetLoadingStatus, SetLoadingStatus} from "../../queries/local";
 
 const useStyles = makeStyles(theme => ({
     rightPanel: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 function Index(props) {
     const classes = useStyles();
     const [setLoading] = useMutation(SetLoadingStatus, {variables: {value: false}});
+    const loadinStatus = useQuery(GetLoadingStatus);
     const {loading, error, data} = useQuery(GetPostsQuery, {
         variables: {id: props.user ? props.user.id : -1}
     });
@@ -32,7 +33,10 @@ function Index(props) {
     const hideRightPanel = useMediaQuery('(max-width:1000px)');
 
     useEffect(() => {
-        setLoading({variables: {value: loading}});
+        console.log(loading, loadinStatus.data.loading.value);
+        if(loading !== loadinStatus.data.loading.value){
+            setLoading({variables: {value: loading}});
+        }
     }, [loading]);
 
     if (error) return <Error/>;

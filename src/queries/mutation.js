@@ -5,6 +5,7 @@ export const PostLikeMutation = gql`
         postLike(postId: $postId, postAuthor: $postAuthor, userLiked: $userLiked){
             id
             likes{
+                id
                 avatar
                 username
             }
@@ -26,7 +27,6 @@ export const AddCommentMutation = gql`
 `;
 export const FollowMutation = gql`
     mutation follow($user:ID!, $toFollow: ID!){
-        follow(user: $user, toFollow: $toFollow){
-        }
+        follow(user: $user, toFollow: $toFollow)
     }
 `;

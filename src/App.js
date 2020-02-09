@@ -35,14 +35,14 @@ function App() {
         clientState:{
             defaults: {
                 loading: {
-                    value: false,
+                    value: true,
                     __typename: "Loading"
                 }
             },
             resolvers: {
                 Mutation:{
                     setLoading: (parent, args, {cache}) => {
-                        cache.writeData({id: "Loading", args});
+                        cache.writeData({__typename: "Loading", args});
                     }
 
                 },

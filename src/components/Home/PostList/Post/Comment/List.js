@@ -23,7 +23,6 @@ const useStyles = makeStyles(theme => ({
 function List(props) {
     const classes = useStyles();
     const {comments} = props;
-    console.log(comments);
     const [showCount, setShowCount] = useState(2);
 
     const showMore = () => {

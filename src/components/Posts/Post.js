@@ -93,7 +93,7 @@ export default function Post({post, user, updatePost, addLike, addComment}) {
     };
 
 
-    const handleLike = async (e) => {
+/*    const handleLike = async (e) => {
         e.preventDefault();
         try{
             const res = await sendLike({
@@ -104,7 +104,7 @@ export default function Post({post, user, updatePost, addLike, addComment}) {
         } catch (e) {
             console.log(e);
         }
-    };
+    };*/
 /*    const calculateDate = () => {
         let utcSeconds = post.createdAt / 1000;
         let d = new Date(0);

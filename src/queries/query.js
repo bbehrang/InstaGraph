@@ -13,6 +13,7 @@ export const GetUserQuery = gql`
                 caption
                 media
                 likes{
+                    id
                     username
                     avatar
                 }
@@ -46,6 +47,7 @@ export const GetPostsQuery = gql`
                 caption
                 media
                 likes{
+                    id
                     username
                     avatar
                 }

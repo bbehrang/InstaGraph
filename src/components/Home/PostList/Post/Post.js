@@ -33,7 +33,7 @@ export default function Post(props) {
                     <img src={post.post.media} alt='post' className={classes.postImage}/>
                 </div>
                 <Box width="95%" mx="auto">
-                    <Actions postId={post.post.id} postAuthor={post.author.id} isLiked={post.post.likes}/>
+                    <Actions postId={post.post.id} postAuthor={post.author.id} likes={post.post.likes}/>
                     <Box px={2}>
                         <Caption author={post.author.username} body={post.post.caption}/>
                         <CommentList comments={post.post.comments} shouldAddElipsis={true}/>
