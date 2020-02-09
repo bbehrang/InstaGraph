@@ -42,14 +42,15 @@ export async function getFeedByUser(id){
         const user = await User.findById(id);
         const users = await User.find({_id : {$in : user.following}})
             .select("id fullname username avatar posts")
-            .populate("posts.comments.author", "username id");
-        console.log(users[0]);
+            .populate("posts.comments.author", "username id avatar")
+            .populate("posts.likes", "username id avatar");
         let mappedPost = [];
         users.forEach(user => {
             user.posts.forEach(post => {
                 mappedPost.push({author : user, post: post});
             });
         });
+        mappedPost.sort((a,b) =>  a.post.createdAt < b.post.createdAt);
         return mappedPost;
     }
     catch (error) {
